@@ -1,0 +1,8 @@
+Sobre a segurança da API, poderíamos autenticar as requisições na API usando um token de acesso OAuth2. 
+O usuário que for consumir a aplicação faz uma requisição a um endpoint passando um userName e um password, e 
+caso sejam válido recebe o APIToken, que precisaria ser enviado no Header, para autenticar as requisições.
+
+
+
+Outra forma de autenticação válida também é o Bearer Token, que tem um período de validade, poderíamos usar ele 
+também, e o usuário então deve gerar um novo token a cada vez que for consumir a api, ou até aquele Bearer token expirar
