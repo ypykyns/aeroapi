@@ -8,7 +8,7 @@ namespace aeroapi
     public class Conn
     {
         SqlConnection DBConnection;
-        string connectionString = @"Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = aeroapi; Integrated Security = False; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
+        string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=aeroapi;Integrated Security=False;Connect Timeout=30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         public SqlDataReader ExecuteQuery(string query)
         {
