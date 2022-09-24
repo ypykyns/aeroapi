@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Net.Http.Json;
 
 namespace aeroapi.Controllers
 {
@@ -8,46 +12,59 @@ namespace aeroapi.Controllers
     public class AeroAPIController : ControllerBase
     {
         Conn conn = new Conn();
+        UtilsWS utils = new UtilsWS();
 
-        [HttpGet]
+        [HttpGet]     
         [Route("GetPassageiro")]
         public string GetPassageiro(int id)
-        {
+        {            
             return conn.getPassageiro(id);
         }
 
 
         [HttpPost]
         [Route("CriarPassageiro")]
-        public string PostPassageiro(string nome, int idade, string celular)
+        public string PostPassageiro(Object json)
         {
-            JObject passageiro = new JObject();
-            passageiro.Add("Nome", nome);
-            passageiro.Add("Idade", idade);
-            passageiro.Add("Celular", celular);
+            JObject passageiro = JsonConvert.DeserializeObject<JObject>(json.ToString());
 
-            return conn.postPassageiro(passageiro);
+            if (utils.validaObjPost(passageiro))
+            {
+                JObject result = conn.postPassageiro(passageiro);
+                return result.ToString();
+            }
+            else
+            {
+                return "Não foi possível criar o passageiro - Valores nulos ou não informados.";
+            }
         }
+
 
         [HttpPut]
         [Route("AlterarPassageiro")]
-        public string PutPassageiro(int id, string nome, int idade, string celular)
+        public string PutPassageiro(Object json)
         {
-            JObject passageiro = new JObject();
-            passageiro.Add("Id", id);
-            passageiro.Add("Nome", nome);
-            passageiro.Add("Idade", idade);
-            passageiro.Add("Celular", celular);
-           
-           return conn.putPassageiro(passageiro);       
+            JObject passageiro = JsonConvert.DeserializeObject<JObject>(json.ToString());
+
+            if (utils.validaObjPut(passageiro))
+            {
+                JObject result = conn.putPassageiro(passageiro);
+                return result.ToString();
+            }
+            else
+            {
+                return "Não foi possível criar o passageiro - Valores nulos ou não informados.";
+            }
+
+
         }
 
 
         [HttpDelete]
         [Route("ExcluirPassageiro")]
         public string ExcluirPassageiro(int id)
-        {           
-            return conn.deletePassageiro(id);            
+        {
+            return conn.deletePassageiro(id);
         }
 
     }
