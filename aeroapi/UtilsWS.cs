@@ -1,8 +1,11 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
+
+// essa classe tem os métodos para validar se o objeto recebido pelo controller contém 
+// todos os dados para fazer a requisição
+// considerando que todos os campos sãop obrigatórios, e retornando falso 
+// caso alguma tag do objeto venha vazia, ou caso o obejto venha sem alguma tag.
 
 namespace aeroapi
 {
@@ -17,6 +20,7 @@ namespace aeroapi
 
             try
             {
+               
                 if (passageiro["Nome"].ToString() != null && !String.IsNullOrEmpty(passageiro["Nome"].ToString()))
                 {
                     nome = true;
@@ -53,15 +57,13 @@ namespace aeroapi
         {
             bool nome = false;
             bool cel = false;
-            bool idade = false;
-            bool id = false;
+            bool idade = false;         
 
             try
             {
-                if (passageiro["Id"].ToString() != null && !String.IsNullOrEmpty(passageiro["Id"].ToString()))
-                {
-                    id = true;
-                }
+                // tenta fazer a conversão para um valor inteiro
+                // se o cast falhar cai no catch e retorna false.
+                int passageiroId = (int)passageiro["Id"];                                
 
                 if (passageiro["Nome"].ToString() != null && !String.IsNullOrEmpty(passageiro["Nome"].ToString()))
                 {
@@ -78,7 +80,8 @@ namespace aeroapi
                     cel = true;
                 }
 
-                if (nome && cel && idade && id)
+                // se todas as condições forem true, retorna ok na validação;
+                if (nome && cel && idade)
                 {
                     return true;
                 }
@@ -92,8 +95,9 @@ namespace aeroapi
                 return false;
             }
 
-
-        }
+        }       
 
     }
+
 }
+
